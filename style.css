@@ -89,8 +89,21 @@ button:hover {
   color: hsl(25, 97%, 53%);
 }
 
-li {
+ul {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+ul div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+ul div button {
+  
 }
 
 
