@@ -102,9 +102,9 @@ ul div {
   justify-content: space-between;
 }
 
-ul div button {
-  
+.buttonDiv {
+  display: flex;
+  column-gap: 15px;
 }
-
 
 
