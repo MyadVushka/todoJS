@@ -2,13 +2,17 @@ const list = document.querySelector('.list');
 const btn = document.querySelector('.button');
 const inpt = document.querySelector('.input');
 
+document.addEventListener('DOMContentLoaded', function() {
+  list.innerHTML = window.localStorage.myitems || '';
+})
+
 btn.addEventListener('click', function(event) {
 
   
   if (inpt.value == '') {
     return 0;
   }
-
+  
   // creating general nodes
   const liNode = document.createElement('li');
   liNode.classList.add('liTodo');
@@ -34,14 +38,36 @@ btn.addEventListener('click', function(event) {
   liNode.appendChild(divNode);
   list.appendChild(liNode);
 
+  window.localStorage.myitems = list.innerHTML;
+
   buttonDelNode.addEventListener('click', function() {
     buttonDelNode.parentNode.parentNode.parentNode.remove();
+    localStorage.clear();
   })
 
   buttonConfNode.addEventListener('click', function() {
     buttonConfNode.innerText = buttonConfNode.innerText == 'N' ? 'Y' : 'N';
+    buttonConfNode.style.color = buttonConfNode.innerText == 'N' ? 'white' : 'hsl(25, 97%, 53%)';
+  })
+  
+  buttonConfNode.addEventListener('mouseenter', function() {
+    if (buttonConfNode.innerText == 'Y') {
+      return;
+    }
+    else {
+      buttonConfNode.style.color = 'hsl(25, 97%, 53%)';
+    }
+  })
+  buttonConfNode.addEventListener('mouseleave', function() {
+    if (buttonConfNode.innerText == 'Y') {
+      return;
+    }
+    else {
+      buttonConfNode.style.color = 'white';
+    }
   })
 
   inpt.value = '';
 })
+
 
