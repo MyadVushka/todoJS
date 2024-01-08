@@ -1,73 +1,68 @@
+const text = document.querySelector('.input');
 const list = document.querySelector('.list');
-const btn = document.querySelector('.button');
-const inpt = document.querySelector('.input');
+const button = document.querySelector('.button');
 
 document.addEventListener('DOMContentLoaded', function() {
-  list.innerHTML = window.localStorage.myitems || '';
+  const storedValues = localStorage.getItem('todoList');
+  if (storedValues) {
+    list.innerHTML = storedValues;
+  }
 })
 
-btn.addEventListener('click', function(event) {
+const saveToStorage = () => {
+  localStorage.setItem('todoList', list.innerHTML);
+}
 
-  
-  if (inpt.value == '') {
-    return 0;
+const addElement = () => {
+  if (text.value.length == 0) {
+    return;
   }
+
+  const date = Date.now();
   
-  // creating general nodes
   const liNode = document.createElement('li');
-  liNode.classList.add('liTodo');
-  const divNode = document.createElement('div');
-  const textNode = document.createTextNode(inpt.value);
-  const buttonDivNode = document.createElement('div');
-  buttonDivNode.classList.add('buttonDiv');
-  // button to check if complete
-  const buttonConfNode = document.createElement('button');
-  buttonConfNode.innerText = 'N';
+  liNode.setAttribute('id', date);
+  const generalDiv = document.createElement('div');
+  const textNode = document.createElement('span');
+  textNode.innerHTML = text.value;
+  const buttonDiv = document.createElement('div');
+  buttonDiv.classList.add('buttonDiv');
+  const buttonCheck = document.createElement('button');
+  buttonCheck.innerHTML = 'N';
+  buttonCheck.classList.add('buttonCheck');
+  const buttonDel = document.createElement('button');
+  buttonDel.classList.add('buttonDel');
+  buttonDel.innerHTML = 'Del';
 
-  // button to delete
-  const buttonDelNode = document.createElement('button');
-  buttonDelNode.classList.add('btnToDelete');
-  buttonDelNode.innerText = 'Delete';
-
-  buttonDivNode.appendChild(buttonConfNode);
-  buttonDivNode.appendChild(buttonDelNode);
-
-  divNode.appendChild(textNode);
-  divNode.appendChild(buttonDivNode);
-
-  liNode.appendChild(divNode);
+  buttonDiv.appendChild(buttonCheck);
+  buttonDiv.appendChild(buttonDel);
+  generalDiv.appendChild(textNode);
+  generalDiv.appendChild(buttonDiv);
+  liNode.appendChild(generalDiv);
   list.appendChild(liNode);
 
-  window.localStorage.myitems = list.innerHTML;
+  saveToStorage();
+}
 
-  buttonDelNode.addEventListener('click', function() {
-    buttonDelNode.parentNode.parentNode.parentNode.remove();
-    localStorage.clear();
-  })
+list.addEventListener('click', function(event) {
+  const target = event.target;
 
-  buttonConfNode.addEventListener('click', function() {
-    buttonConfNode.innerText = buttonConfNode.innerText == 'N' ? 'Y' : 'N';
-    buttonConfNode.style.color = buttonConfNode.innerText == 'N' ? 'white' : 'hsl(25, 97%, 53%)';
-  })
-  
-  buttonConfNode.addEventListener('mouseenter', function() {
-    if (buttonConfNode.innerText == 'Y') {
-      return;
+  if (target.classList.contains('buttonDel')) {
+    const liNode = target.closest('li');
+    if (liNode) {
+      list.removeChild(liNode);
+      saveToStorage();
     }
-    else {
-      buttonConfNode.style.color = 'hsl(25, 97%, 53%)';
-    }
-  })
-  buttonConfNode.addEventListener('mouseleave', function() {
-    if (buttonConfNode.innerText == 'Y') {
-      return;
-    }
-    else {
-      buttonConfNode.style.color = 'white';
-    }
-  })
+  }
+  if (target.classList.contains('buttonCheck')) {
+    target.innerHTML = target.innerHTML == 'N' ? 'Y' : 'N';
+  }
+});
 
-  inpt.value = '';
-})
+button.addEventListener('click', addElement);
+
+
+
+
 
 
