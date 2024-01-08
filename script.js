@@ -1,6 +1,7 @@
 const text = document.querySelector('.input');
 const list = document.querySelector('.list');
 const button = document.querySelector('.button');
+const buttonAllDel = document.querySelector('.buttonClearAll');
 
 document.addEventListener('DOMContentLoaded', function() {
   const storedValues = localStorage.getItem('todoList');
@@ -18,10 +19,7 @@ const addElement = () => {
     return;
   }
 
-  const date = Date.now();
-  
   const liNode = document.createElement('li');
-  liNode.setAttribute('id', date);
   const generalDiv = document.createElement('div');
   const textNode = document.createElement('span');
   textNode.innerHTML = text.value;
@@ -61,6 +59,11 @@ list.addEventListener('click', function(event) {
 
 button.addEventListener('click', addElement);
 
+buttonAllDel.addEventListener('click', function() {
+  localStorage.clear();
+
+  list.innerHTML = '';
+})
 
 
 
