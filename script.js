@@ -53,7 +53,16 @@ list.addEventListener('click', function(event) {
     }
   }
   if (target.classList.contains('buttonCheck')) {
-    target.innerHTML = target.innerHTML == 'N' ? 'Y' : 'N';
+    if (target.innerHTML == 'N') {
+      target.innerHTML = 'Y';
+      target.classList.add('completed');
+      saveToStorage();
+    }
+    else {
+      target.innerHTML = 'N';
+      target.setAttribute('class', 'buttonCheck');
+      saveToStorage();
+    }
   }
 });
 
